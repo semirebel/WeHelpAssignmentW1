@@ -1,0 +1,36 @@
+/* 需求 2：600px < 螢幕寬度 <= 1200px */
+
+
+/* main content 更動區 */
+.maincontent {
+  grid-template-columns: auto 90% auto; /* 中間欄 90% 寬度 */
+}
+
+.bars {
+  grid-template-columns: 1fr 1fr; /* 左邊占比1，右邊占比1 */
+}
+
+.bars1{
+  grid-column: 1 / 2; /* 從第1格線開始跨2欄 */
+}
+
+.bars2{
+  grid-column: 2 / 3; /*從第2格線到第3格線 */
+}
+
+.bars3{
+  grid-column: 1 / span 2; /* 從第1格線開始跨2欄 */
+}
+
+.bar-img{
+  height: 50px;
+}
+
+
+.contentblocks {
+  grid-template-columns: repeat(4, 1fr);/* 重複 4 次 1fr */
+}
+
+.contentblocks .contentblocks-items:nth-child(n+9) { /* 選取從第 9 個開始的item */
+    grid-column: span 2; /* 跨 2 欄 */
+}

@@ -1,0 +1,56 @@
+/* 需求 3：360px < 螢幕寬度 <= 600px */
+
+/* 表頭修改成兩欄 */
+.grid-header {
+  display: grid;
+  grid-template-columns: auto 50px;
+  height: 50px;
+}
+
+.grid-header > div:first-child {
+  height: 50px;
+}
+
+/* Item 1~4 隱藏*/
+.grid-header > div:nth-child(2),
+.grid-header > div:nth-child(3),
+.grid-header > div:nth-child(4),
+.grid-header > div:nth-child(5) {
+  display: none;
+}
+
+/* 選單圖示設定 */
+.grid-header .burger-menu {
+  display: flex;         
+  justify-content: flex-end;
+  align-items: center;
+  height: 50px;
+  padding-right: 15px;
+  cursor: pointer;       
+}
+
+/* main content 更動區 */
+.bars {
+  grid-template-columns: 1fr; /* 更改為占比1 */
+}
+
+.bars1{
+  grid-column: 1 / 2; /* 從第1格線開始跨2欄 */
+}
+
+.bars2{
+  grid-column: 1 / 2; /* 從第1格線開始跨2欄 */
+}
+
+.bars3{
+  grid-column: 1 / 2; /* 從第1格線開始跨2欄 */
+}
+
+
+.contentblocks {
+  grid-template-columns: 1fr;/* 改為1格 */
+}
+
+.contentblocks .contentblocks-items:nth-child(n+9) { /* 選取從第 9 個開始的item */
+    grid-column: 1 / 2; 
+}

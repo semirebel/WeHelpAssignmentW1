@@ -1,0 +1,220 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* 需求 1：1200px < 螢幕寬度 <= 1920px */
+
+.grid-header {
+  display: grid;
+  grid-template-columns: auto 60px 60px 60px 60px;
+  grid-gap: 0px;
+  height: 50px;
+  background-color: white;
+}
+
+.grid-header > div {
+  font-size: 20px;
+  display: flex; /*啟用 Flexbox 並讓內容垂直置中 */
+  align-items: center;
+}
+
+/* 第一個div設定靠左 */
+.grid-header > div:first-child {
+  justify-content: flex-start;
+  padding: 0 0 0 15px;
+}
+
+/* 除了第一個以外的div設定靠右 */
+.grid-header > div:not(:first-child) {
+  justify-content: flex-end;
+  padding: 0 15px 0 0;
+}
+
+/* 選單圖示隱藏 */
+.grid-header .burger-menu {
+  display: none;
+}
+
+.burger-img {
+  width: 20px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* 彈出式選單 */
+.burger-menulist {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 100vh;
+  background-color: white;
+  z-index: 999;
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+}
+/* 第一列(Item1 & X) */
+.menu-first-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;               
+  font-size: 20px;
+  box-sizing: border-box; /* 防止 padding 撐開高度 */
+}
+
+/* X 按鈕 */
+.close-btn {
+  font-size: 20px;
+  cursor: pointer;
+  position: absolute;
+  padding: 0 15px;     
+  top: 5px;
+  right: 15px;
+}
+
+/* 第一列以外 (Item 2 ~ 4) 項目設定 */
+.burger-menulist > div:not(.menu-first-row) {                   
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  font-size: 20px;
+  padding: 0 15px;
+  position: relative;
+  box-sizing: border-box; /* 防止 padding 撐開高度 */
+}
+
+/* welcome section */
+.greeting{
+  height: 250px;
+  width: 100%;
+  background-color: powderblue;
+
+  font-size: 40px;
+  text-align: center;
+  
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+/* main content */
+.maincontent {
+  display: grid;
+  grid-template-columns: auto 1200px auto;
+  grid-gap: 0px;
+  background-color: white;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.bars {
+  grid-column: 2 / 3; /* 承接maincontent容器，從第2格線起至第3格線止。 */
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* 左邊占比2，右邊占比1 */
+  grid-gap: 20px;
+  width: 100%; /* 填滿 1200px 主區域 */
+  margin-bottom: 20px;
+}
+
+.bars1{
+  grid-column: 1 / span 2; /* 從第1格線開始跨2欄 */
+}
+
+.bars2{
+  grid-column: 1 / 2; /*從第1格線到第2格線(bars第一格現已占2fr) */
+}
+
+.bars3{
+  grid-column: 2 / 3;
+  width: auto; /* 確保它是彈性跟著 1/3 走，勿固定 px */
+}
+
+.bars1, .bars2, .bars3 {
+  display: flex;         /* 啟用 Flexbox 佈局 */
+  align-items: center;   /* 物件全部垂直置中 */
+  font-size: 20px;
+  background-color: lavenderblush;
+}
+
+.bar-img{
+  width: 80px;
+  height: auto;
+  object-fit: cover; /* 等比例縮放並填滿，多餘的裁切 */
+  object-position: center; /* 居中裁切 */
+  margin-right: 15px;
+}
+
+
+.contentblocks {
+  grid-column: 2 / 3; /* 承接maincontent容器，從第2格線起至第3格線止。 */
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr);/* 第一欄 2fr，後面重複 4 次 1fr */
+  grid-gap: 20px; /* 內層項目之間的間距 */
+  width: 100%; /* 填滿 1200px 主區域 */
+  grid-auto-rows: minmax(250px, auto);
+}
+
+.contentblocks-items{
+  height: 250px; 
+  position: relative;
+  overflow: hidden;
+}
+
+.contentblocks-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 等比例縮放並填滿，多餘的裁切 */
+  object-position: center; /* 居中裁切 */
+  position: absolute;/* 將圖片貼底當背景，因此使用絕對定位 */
+  top: 0;
+  left: 0;
+  z-index: 1;/* 讓圖片待在最底層，以後文字才能疊在圖片上方 */
+}
+
+.contentblocks-title{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%; 
+  box-sizing: border-box;
+  height: 50px;             
+  background-color: rgba(255, 240, 245, 0.6); /* 半透明背景 */
+  font-size: 20px;
+  z-index: 5; /* 強制拉高層級，不會被圖片擋住 */
+  padding: 0 10px; /* 左右各留 10px */
+  text-align: center;        /* 確保短文字完美置中 */
+  line-height: 50px;         /* 數字設定跟 height 一樣，文字就會完美垂直置中 */
+  /*以下三組設定必須同時出現以達效益*/
+  white-space: nowrap;       /* 1. 強制文字不換行，全部擠在同一行 */
+  overflow: hidden;          /* 2. 把超出寬度框框的文字隱藏起來 */
+  text-overflow: ellipsis;   /* 3. 當文字被隱藏時，自動在結尾補上 "..." */
+}
+
+/* 星星圖式 */
+.star-img{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  opacity: 0.6;
+  z-index: 5; /* 強制拉高層級，不會被圖片擋住 */
+}
+
+/* 載入更多按鈕 */
+.btn-area{
+  padding: 15px 0;
+  text-align: center;
+}
+
+#load-more-btn {
+  padding: 10px 30px;
+  font-size: 16px;
+}

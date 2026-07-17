@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sammi Chen - Week 1</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="Requirement1.css">
+    <link rel="stylesheet" href="Requirement2.css" media="(max-width: 1200px)">
+    <link rel="stylesheet" href="Requirement3.css" media="(max-width: 600px)">
+</head>
+<body>
+    <!--表頭-->
+    <div class="grid-header">
+        <div>My Website</div>
+        <div>Item1</div>
+        <div>Item2</div>  
+        <div>Item3</div>
+        <div>Item4</div>
+        <!--隱藏式選單圖式-->
+        <div class="burger-menu" onclick="toggleMenu()">
+            <img src="burger-menu03.png" alt="Menu" class="burger-img">
+        </div>
+    </div>
+
+    <!--隱藏式選單內容-->
+    <div id="menulist" class="burger-menulist">
+
+        <div class="menu-first-row">
+            <div>Item 1</div>
+            <div class="close-btn" onclick="toggleMenu()">X</div>
+        </div>
+        
+        <div>Item 2</div>
+        <div>Item 3</div>
+        <div>Item 4</div>
+    </div>   
+
+    <!--首圖招呼區域-->
+    <div class="greeting">
+    Welcome to MyHome
+    </div>
+
+    <!--主內容區域-->
+    <div class="maincontent">
+        
+        <!--Bars-->
+        <div class="bars">
+            <div class="bars1">
+                <img src="week1pic.jpg" alt="Promotion" class="bar-img">
+                <span>Promotion 1</span>
+            </div>
+            <div class="bars2">
+                <img src="week1pic.jpg" alt="Promotion" class="bar-img">
+                <span>Promotion 2</span>
+            </div>
+            <div class="bars3">
+                <img src="week1pic.jpg" alt="Promotion" class="bar-img">
+                <span>Promotion 3</span>
+            </div>
+        </div>
+
+        <!--Content Blocks-->
+        <div class="contentblocks">
+            <div class="contentblocks-items">
+                <img src="star.png" alt="Promotion" class="star-img">
+                <img src="week1pic.jpg" alt="Promotion" class="contentblocks-img">
+                <div class="contentblocks-title">Title 1</div>
+            </div>
+            <div class="contentblocks-items">
+                <img src="star.png" alt="Promotion" class="star-img">
+                <img src="week1pic.jpg" alt="Promotion" class="contentblocks-img">
+                <div class="contentblocks-title">Title 2</div>
+            </div>
+            <div class="contentblocks-items">
+                <img src="star.png" alt="Promotion" class="star-img">
+                <img src="week1pic.jpg" alt="Promotion" class="contentblocks-img">
+                <div class="contentblocks-title">Title 3</div>
+            </div>
+            <div class="contentblocks-items">
+                <img src="star.png" alt="Promotion" class="star-img">
+                <img src="week1pic.jpg" alt="Promotion" class="contentblocks-img">
+                <div class="contentblocks-title">Title 4</div>
+            </div>
+            <div class="contentblocks-items">
+                <img src="star.png" alt="Promotion" class="star-img">
+                <img src="week1pic.jpg" alt="Promotion" class="contentblocks-img">
+                <div class="contentblocks-title">Title 5</div>
+            </div>
+            <div class="contentblocks-items">
+                <img src="star.png" alt="Promotion" class="star-img">
+                <img src="week1pic.jpg" alt="Promotion" class="contentblocks-img">
+                <div class="contentblocks-title">Title 6</div>
+            </div>
+            <div class="contentblocks-items">
+                <img src="star.png" alt="Promotion" class="star-img">
+                <img src="week1pic.jpg" alt="Promotion" class="contentblocks-img">
+                <div class="contentblocks-title">Title 7</div>
+            </div>
+            <div class="contentblocks-items">
+                <img src="star.png" alt="Promotion" class="star-img">
+                <img src="week1pic.jpg" alt="Promotion" class="contentblocks-img">
+                <div class="contentblocks-title">Title 8</div>
+            </div>
+            <div class="contentblocks-items">
+                <img src="star.png" alt="Promotion" class="star-img">
+                <img src="week1pic.jpg" alt="Promotion" class="contentblocks-img">
+                <div class="contentblocks-title">Title 9</div>
+            </div>
+            <div class="contentblocks-items">
+                <img src="star.png" alt="Promotion" class="star-img">
+                <img src="week1pic.jpg" alt="Promotion" class="contentblocks-img">
+                <div class="contentblocks-title">Title 10</div>
+            </div>   
+        </div>
+    </div>
+
+    <!--載入更多按鈕-->
+    <div class="btn-area">
+        <button id="load-more-btn">Load More</button>
+    </div>
+
+     <script>
+    function toggleMenu() {
+        var menu = document.getElementById("menulist");
+        if (menu.style.display === "block") {menu.style.display = "none";} 
+        else {menu.style.display = "block";}
+    }
+    </script>
+    <script src="week3.js"></script>
+</body>
+</html>
