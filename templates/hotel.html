@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% if success %}旅館資訊查詢結果{% else %}查詢失敗{% endif %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .login-box {
+                background-color: aliceblue;
+                margin: 60px auto; /* 上下留白，左右自動平分 */
+                border: 1px solid #ccc; /* 外框 */
+                font-family: "Microsoft JhengHei", sans-serif;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .login-box.box-success {
+                width: 550px !important;
+            }
+            .login-box.box-fail {
+                width: 400px !important;
+            }
+            .login-top {
+                height: 60px;
+                line-height: 60px;
+                background-color: darkcyan;
+                font-weight: bold;
+                font-size: large;
+                color: aliceblue;
+                text-align: center;  
+            }
+            .login-contents {
+                /* 比照 member.html 的間距與水平置中設定 */
+                padding: 25px 20px 30px 20px;
+                text-align: center;
+                font-size: 16px;
+                line-height: 1.8; /* 調整行高，讓按鈕換行時有舒適的間距 */
+            }
+            /* 讓超連結看起來像個乾淨的文字，不特別變色 */
+            .back-link {
+                display: inline-block;
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="login-box {% if success %}box-success{% else %}box-fail{% endif %}">
+            <div class="login-top">旅館資訊</div>
+            
+            <div class="login-contents">
+                {% if success %}
+                    <div>{{ name_zh }}、{{ name_en }}、{{ phone }}</div>
+                {% else %}
+                    <div>查詢不到相關資料</div>
+                {% endif %}
+                <a class="back-link" href="/">返回首頁</a>
+            </div>
+        </div>
+    </body>
+</html>
