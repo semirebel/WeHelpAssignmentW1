@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sammi Chen - Week 6 - member system</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .container{
+                width: 360px;
+                background-color: aliceblue;
+                margin: 60px auto; /* 上下留白，左右自動平分 */
+                border: 1px solid #ccc; /* 外框&陰影 */
+                font-family: "Microsoft JhengHei", sans-serif;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .header{
+                height: 60px;
+                line-height: 60px;
+                background-color: darkcyan;
+                font-weight: bold;
+                font-size: large;
+                color: aliceblue;
+                text-align: center;  
+            }
+
+            .contents{
+                padding: 13px 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid #ccc;
+                line-height: 1.9;
+            }
+
+            .input-group{
+                display: flex;         
+                align-items: center;  
+                margin: 2px 0;
+            }
+
+            .input-group label {
+                padding-right: 5px;
+            }
+
+            .input-group input[type="text"], 
+            .input-group input[type="password"] {
+                padding: 5px;
+                border: 1px solid #ccc;
+            }
+
+            .message-list-box {
+                align-items: center !important; 
+                max-height: 300px;
+                overflow-y: auto;
+                padding: 15px 20px;
+                box-sizing: border-box; /* 確保 padding 不會撐開總寬度 */
+            }
+            
+            .delete-btn {
+                font-size: 11px;
+                padding: 1px 4px; /* 縮小上下左右的內襯，按鈕框框跟著自然縮小 */
+                margin-left: 6px;
+                cursor: pointer; /* 滑鼠移過去顯示手指圖標 */
+                line-height: 1;  /* 讓高度緊湊 */
+                border-radius: 3px; /* 圓角 */
+                background-color: #f0f0f0;
+                border: 1px solid #c4c3c3; /* 細邊框 */
+            }
+
+            /* 加上滑鼠移過去的效果 */
+            .delete-btn:hover {
+                background-color: #e0e0e0;  /* 移過去顏色加深一點點 */
+                border-color: #999;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">歡迎光臨，這是會員頁</div>
+
+            <div class="contents">
+                {{ username }},歡迎登入系統</br>
+                <a href="/logout">登出系統</a>
+            </div>
+
+            <div class="contents">
+                <div style="font-weight: 900; ">快來留言吧</div>
+            
+                <div class="input-group">
+                    <label>內容</label>
+                    <input type="text"  id="messageInput">
+                    <!--name屬性:給「傳統表單（HTML Form）」使用；
+                    id 屬性:給「JavaScript（Fetch API）」使用-->
+                </div>
+                
+                <button type="button" onclick="sendMessage()" style="margin: 10px 0 5px 0">送出</button>
+            </div>
+
+            <div class="contents message-list-box" id="messageList">
+                載入留言中...
+            </div>
+
+            <script>
+            // 當網頁完全載入後，去後端撈取所有留言
+            document.addEventListener("DOMContentLoaded", () => {
+                loadMessages();
+            });
+
+            // 向後端撈取留言並渲染到畫面 (GET /api/message)
+            function loadMessages() {
+                fetch("/api/message")
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.ok) {
+                            const messageList = document.getElementById("messageList");
+                            messageList.innerHTML = ""; // 每次重新載入前把舊的畫面清空
+
+                            // 若目前完全沒有留言
+                            if (result.data.length === 0) {
+                                messageList.innerHTML = "<div style='color:gray; width:100%; text-align:center;'>目前尚無留言</div>";
+                                return;
+                            }
+
+                            // 依序將留言陣列跑迴圈畫出來
+                            result.data.forEach(msg => {
+                                const itemDiv = document.createElement("div");
+                                itemDiv.style.width = "100%";
+                                itemDiv.style.textAlign = "center";
+                                itemDiv.style.fontSize = "14px";
+                                itemDiv.style.lineHeight = "1.4";
+                                itemDiv.style.margin = "6px 0";
+
+                                // 建立姓名的 span
+                                const nameSpan = document.createElement("span");
+                                nameSpan.textContent = msg.name;
+                                nameSpan.style.fontWeight = "bold";
+                                itemDiv.appendChild(nameSpan);
+
+                                // 建立冒號與內容的 span
+                                const contentSpan = document.createElement("span");
+                                contentSpan.textContent = ` : ${msg.content}`; /* 冒號前後留個空格 */
+                                itemDiv.appendChild(contentSpan);
+
+                                // Task 6 刪除功能：若後端判定 self 為 true，塞入刪除按鈕
+                                if (msg.self) {
+                                    const delBtn = document.createElement("button");
+                                    delBtn.className = "delete-btn";
+                                    delBtn.textContent = "X";
+                                    // 綁定點擊事件，並傳入該筆留言的 id
+                                    delBtn.onclick = () => {
+                                        deleteMessage(msg.id);
+                                    };
+                                    itemDiv.appendChild(delBtn);
+                                }
+
+                                messageList.appendChild(itemDiv);
+                            });
+                        } else {
+                            console.error("載入留言失敗或 Session 已過期");
+                        }
+                    })
+                    .catch(err => console.error("Fetch 錯誤:", err));
+            }
+
+            // 將新留言以 JSON 格式發送給後端 (POST /api/message)
+            function sendMessage() {
+                const inputElement = document.getElementById("messageInput");
+                const contentText = inputElement.value.trim(); // 剔除前後空格
+
+                if (!contentText) {
+                    alert("請輸入留言內容！");
+                    return;
+                }
+
+                // 發送 Fetch POST 請求
+                fetch("/api/message", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json" // 告訴後端我們傳的是 JSON 格式
+                    },
+                    body: JSON.stringify({ content: contentText }) // 包裝成 Pydantic 預期的格式
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.ok) {
+                        inputElement.value = ""; // 清空輸入框
+                        loadMessages(); // 重新整理留言列表，畫面上跳出最新留言
+                    } else {
+                        alert("留言失敗，請重新登入。");
+                    }
+                })
+                .catch(err => console.error("送出留言錯誤:", err));
+            }
+
+            // Task 6 刪除留言：發送 DELETE 請求給後端 (DELETE /api/message)
+            function deleteMessage(messageId) {
+                // 安全機制，刪除前先跳出確認視窗
+                if (!confirm("確定要刪除這條留言嗎？")) {
+                    return;
+                }
+
+                fetch("/api/message", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    // 將要刪除的留言 ID 包裝成 JSON 傳給後端
+                    body: JSON.stringify({ id: messageId }) 
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.ok) {
+                        loadMessages(); // 刪除成功後，重新整理留言列表
+                    } else {
+                        alert("刪除失敗，您可能沒有權限刪除此留言或登入逾時。");
+                    }
+                })
+                .catch(err => console.error("刪除留言錯誤:", err));
+            }
+        </script>
+        
+    </body>
+</html>
