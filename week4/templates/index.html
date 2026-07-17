@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sammi Chen - Week 4</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .login-box{
+                width: 400px;
+                background-color: aliceblue;
+                margin: 60px auto; /* 上下留白，左右自動平分 */
+                border: 1px solid #ccc; /* 外框&陰影 */
+                font-family: "Microsoft JhengHei", sans-serif;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .login-top{
+                height: 60px;
+                line-height: 60px;
+                background-color: darkcyan;
+                font-weight: bold;
+                font-size: large;
+                color: aliceblue;
+                text-align: center;  
+            }
+
+            .login-contents{
+                padding-top: 13px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid #ccc;
+            }
+
+            .input-group{
+                display: flex;         
+                align-items: center;  
+                margin: 2px 0;
+            }
+
+            .input-group label {
+                padding-right: 5px;
+            }
+
+            .input-group input[type="text"], 
+            .input-group input[type="password"] {
+                padding: 5px;
+                border: 1px solid #ccc;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="login-box">
+            <div class="login-top">歡迎光臨，請輸入信箱密碼</div>
+
+            <!-- 利用 form 將使用者需要提供的資訊：[email,密碼,同意條款打勾]等資訊打包 -->
+            <!-- action: 將資料送到指定網址去處理 對接到 main.py 裡面寫的 @app.post("/login") -->
+            <!-- method: 傳輸方式(常見：GET 和 POST)
+                get 會直接將資料傳置網址顯示，長度有限制，無隱私。
+                post 會包裹起來塞在<body>裡，保有隱私且容量無限 -->
+            <form class="login-contents" id="loginForm" action="/login" method="POST">
+                <div style="font-weight: 900; margin-bottom: 10px;">登入系統</div>
+            
+                <div class="input-group">
+                    <label>信箱</label>
+                    <input type="text" name="email">
+                </div>
+                
+                <div class="input-group">
+                    <label>密碼</label>
+                    <input type="password" name="password">
+                </div>
+                
+                <div class="input-group">
+                    <label for="agree">同意條款</label>
+                    <input type="checkbox" id="agree">
+                </div>
+                
+                <button type="submit" style="margin: 10px 0 15px 0">登入</button>
+            </form>
+
+            <!-- Task 4: 旅館查詢 -->
+            <form class="login-contents" id="hotelForm" method="GET">
+                <div style="font-weight: 900; margin-bottom: 10px;">取得旅館資訊</div>
+            
+                <div class="input-group">
+                    <label>編號</label>
+                    <input type="text" id="hotel_num" name="hotel_num">
+                </div>
+                                
+                <button type="submit" style="margin: 10px 0 15px 0">取得</button>
+            </form>
+        </div>
+        <script>
+            // getElementById 抓取指定區域內容
+            const form = document.getElementById('loginForm');
+
+            /* addEventListener 事件監聽，並在動作發生時，執行任務。
+            語法結構:目標物件.addEventListener('事件名稱', 呼叫函式)
+            常見的事件：'click'-被點擊時;'submit'-表單被送出時;'keydown'-鍵盤按鍵被按下時;'mouseover'-滑鼠游標移進去時
+            相較傳統<button onclick="doSomething()">寫法，
+                優點1:所有的互動邏輯通通收納在 <script>或js檔案，後續好維護；
+                優點2:button onclick後面的設定會覆蓋前面的設定；
+                但 addEventListener 同一個物件可以綁定「多個同種類型的任務」,像疊加任務。後須刪除不需要的任務也容易。
+            */
+            
+            form.addEventListener('submit', function(event) {
+            
+                // 抓取同意條款的勾選框
+                const agreeCheckbox = document.getElementById('agree');
+
+                // 判斷勾選框有沒有被勾選（.checked 會是 true 或 false）
+                /* "!"代表「相反」或「否定」= Not 的意思，
+                把本來是 true（對）的事情變成 false（錯），把 false 變成 true。 */
+                if (!agreeCheckbox.checked) {
+                    
+                    // alert: 強行彈出對話框並暫停整個網頁碼(只能按確定),樣式由瀏覽器內建決定，無法透過css更改。
+                    alert('請勾選同意條款');
+                    
+                    // preventDefault: 攔截並阻止預設行動
+                    event.preventDefault();
+                }
+            });
+
+
+            // Task 4: 旅館查詢
+            const hotelForm = document.getElementById('hotelForm');
+
+            hotelForm.addEventListener('submit', function(event) {
+                
+                event.preventDefault(); // 阻止表單預設的重整送出行為
+
+                // 抓取輸入框裡面的文字
+                const hotelNumInput = document.getElementById('hotel_num').value.trim();
+
+                /* 使用正規表達式檢查是否為「正整數」：
+                   /^[1-9]\d*$/ 代表必須是 1~9 開頭，後面接 0 個或多個數字。
+                   這樣可以完美排除 0、負數、小數點、英文以及空白。 */
+                const isPositiveInteger = /^[1-9]\d*$/.test(hotelNumInput);
+
+                if (!isPositiveInteger) {
+                    // 如果不是正整數，彈出對話框
+                    alert('請輸入正整數');
+                } else {
+                    // window.location.href: 轉址指令(一律會發出Get請求)
+                    window.location.href = "/hotel/" + hotelNumInput;
+                }
+            });
+        </script>
+    </body>
+</html>
+
+<!--前端: 負責"格式檢查"-->
