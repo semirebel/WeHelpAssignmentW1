@@ -265,20 +265,14 @@ def get_messages(request: Request):
 
 # Task 6: 刪除留言
 
-# 定義接收前端刪除請求的資料格式 (Pydantic Model)
-class MessageDelete(BaseModel):
-    id: int  # 接收要刪除的留言 ID
-
 # 刪除留言路由
-@app.delete("/api/message")
-def delete_message(request: Request, msg_data: MessageDelete):
+@app.delete("/api/message/{message_id}")
+def delete_message(request: Request, message_id: int): # 直接從網址中擷取 message_id
     session_id = request.session.get("user_id")
     
     # 檢查是否有登入 Session，若無則拒絕
     if not session_id:
         return {"error": True}
-
-    message_id = msg_data.id
 
     try:
         mycursor = mydb.cursor()
