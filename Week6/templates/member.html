@@ -195,21 +195,17 @@
                 .catch(err => console.error("送出留言錯誤:", err));
             }
 
-            // Task 6 刪除留言：發送 DELETE 請求給後端 (DELETE /api/message)
+            // Task 6 刪除留言：發送 DELETE 請求給後端 (DELETE /api/message/留言編號)
             function deleteMessage(messageId) {
                 // 安全機制，刪除前先跳出確認視窗
                 if (!confirm("確定要刪除這條留言嗎？")) {
                     return;
                 }
 
-                fetch("/api/message", {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    // 將要刪除的留言 ID 包裝成 JSON 傳給後端
-                    body: JSON.stringify({ id: messageId }) 
+                fetch(`/api/message/${messageId}`, {
+                    method: "DELETE"
                 })
+
                 .then(response => response.json())
                 .then(result => {
                     if (result.ok) {
@@ -218,7 +214,9 @@
                         alert("刪除失敗，您可能沒有權限刪除此留言或登入逾時。");
                     }
                 })
-                .catch(err => console.error("刪除留言錯誤:", err));
+
+                .catch(err => console.error("刪除留言錯誤:", err)); // 若出現不可預期的錯誤
+                
             }
         </script>
         
