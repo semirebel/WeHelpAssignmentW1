@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sammi Chen - Week 7 - member system</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .container{
+                width: 360px;
+                background-color: aliceblue;
+                margin: 60px auto; /* 上下留白，左右自動平分 */
+                border: 1px solid #ccc; /* 外框&陰影 */
+                font-family: "Microsoft JhengHei", sans-serif;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .header{
+                height: 60px;
+                line-height: 60px;
+                background-color: darkcyan;
+                font-weight: bold;
+                font-size: large;
+                color: aliceblue;
+                text-align: center;  
+            }
+
+            .contents{
+                padding-top: 13px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid #ccc;
+            }
+
+            .input-group{
+                display: flex;         
+                align-items: center;  
+                margin: 2px 0;
+            }
+
+            .input-group label {
+                padding-right: 5px;
+            }
+
+            .input-group input[type="text"], 
+            .input-group input[type="password"] {
+                padding: 5px;
+                border: 1px solid #ccc;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">歡迎光臨，請註冊登入系統</div>
+
+            <form class="contents" id="signupForm" action="/signup" method="POST">
+                <div style="font-weight: 900; margin-bottom: 10px;">註冊帳號</div>
+                
+                <div class="input-group">
+                    <label>姓名</label>
+                    <input type="text" name="name" required>
+                    <!--required 若內容空白跳出警示並阻止送出-->
+                </div>
+
+                <div class="input-group">
+                    <label>信箱</label>
+                    <input type="text" name="email" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>密碼</label>
+                    <input type="password" name="password" required>
+                </div>
+                
+                <button type="submit" style="margin: 10px 0 15px 0">註冊</button>
+            </form>
+
+            <form class="contents" id="loginForm" action="/login" method="POST">
+                <div style="font-weight: 900; margin-bottom: 10px;">登入系統</div>
+            
+                <div class="input-group">
+                    <label>信箱</label>
+                    <input type="text" name="email" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>密碼</label>
+                    <input type="password" name="password" required>
+                </div>
+                
+                <button type="submit" style="margin: 10px 0 15px 0">登入</button>
+            </form>
+
+        
+        
+    </body>
+</html>
